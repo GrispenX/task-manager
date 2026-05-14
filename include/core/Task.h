@@ -42,6 +42,7 @@ public:
 
     void AddTag(std::shared_ptr<Tag> tag);
     void RemoveTag(std::shared_ptr<Tag> tag);
+    bool HasTag(std::shared_ptr<Tag> tag);
 
 private:
     int m_ID;

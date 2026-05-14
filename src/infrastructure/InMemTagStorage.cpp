@@ -6,6 +6,7 @@ int InMemTagStorage::Add(std::shared_ptr<Tag> tag)
     int id = m_NextID++;
     tag->SetID(id);
     m_Tags.insert({id, tag});
+    return id;
 }
 
 std::shared_ptr<Tag> InMemTagStorage::Get(int id)

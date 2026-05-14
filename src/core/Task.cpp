@@ -104,3 +104,12 @@ void Task::RemoveTag(std::shared_ptr<Tag> tag)
 {
     std::erase(m_Tags, tag);
 }
+
+bool Task::HasTag(std::shared_ptr<Tag> tag)
+{
+    for(auto t : m_Tags)
+    {
+        if(t == tag) return true;
+    }
+    return false;
+}

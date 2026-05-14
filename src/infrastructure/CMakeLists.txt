@@ -3,6 +3,7 @@ add_library(infrastructure
     InMemTagStorage.cpp
     TaskService.cpp
     TagService.cpp
+    TaskSelectorService.cpp
 )
 
 target_include_directories(infrastructure PUBLIC ${CMAKE_SOURCE_DIR}/include)

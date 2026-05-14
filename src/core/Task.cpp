@@ -48,6 +48,11 @@ std::weak_ptr<Task> Task::ParentTask() const
     return m_ParentTask;
 }
 
+std::vector<std::shared_ptr<Tag>> Task::Tags()
+{
+    return m_Tags;
+}
+
 
 void Task::SetID(int id)
 {
@@ -88,4 +93,14 @@ void Task::AddSubtask(std::shared_ptr<Task> task)
 void Task::RemoveSubtask(std::shared_ptr<Task> task)
 {
     std::erase(m_Subtasks, task);
+}
+
+void Task::AddTag(std::shared_ptr<Tag> tag)
+{
+    m_Tags.push_back(tag);
+}
+
+void Task::RemoveTag(std::shared_ptr<Tag> tag)
+{
+    std::erase(m_Tags, tag);
 }

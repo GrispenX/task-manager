@@ -1,4 +1,6 @@
 add_library(core
+    Color.cpp
+    Tag.cpp
     Task.cpp
 )
 

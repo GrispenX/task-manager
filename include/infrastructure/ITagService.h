@@ -2,6 +2,8 @@
 #define INCLUDE_INFRASTRUCTURE_ITAGSERVICE_H_
 
 #include "core/Tag.h"
+#include <vector>
+#include <memory>
 
 class ITagService
 {
@@ -14,6 +16,7 @@ public:
     virtual void SetTagColor(int tag_id, Color color) = 0;
     virtual void AddTagToTask(int task_id, int tag_id) = 0;
     virtual void RemoveTagFromTask(int task_id, int tag_id) = 0;
+    virtual std::vector<std::shared_ptr<Tag>> GetAllTags() = 0;
 };
 
 #endif // INCLUDE_INFRASTRUCTURE_ITAGSERVICE_H_

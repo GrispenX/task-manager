@@ -2,8 +2,10 @@
 #include "infrastructure/InMemTagStorage.h"
 #include "infrastructure/TaskService.h"
 #include "infrastructure/TagService.h"
+#include "infrastructure/TaskSelectorService.h"
 #include <iostream>
 #include <format>
+#include "console/MainView.h"
 
 using namespace std::chrono;
 
@@ -45,26 +47,15 @@ int main()
 {
     std::shared_ptr<ITaskStorage> task_storage = std::make_shared<InMemTaskStorage>();
     std::shared_ptr<ITagStorage> tag_storage = std::make_shared<InMemTagStorage>();
-    TaskService task_service(task_storage);
-    TagService tag_service(tag_storage, task_storage);
-    int id1 = task_service.CreateNewTask("task 1", "", std::nullopt);
-    int id2 = task_service.CreateNewTask("task 2", "", id1);
-    int id3 = task_service.CreateNewTask("task 3", "", id1);
-    int id4 = task_service.CreateNewTask("task 4", "", id2);
-    int id5 = task_service.CreateNewTask("task 5", "", id4);
+    Context context {
+        .task_service = std::make_shared<TaskService>(task_storage),
+        .tag_service = std::make_shared<TagService>(tag_storage, task_storage),
+        .task_selector_service = std::make_shared<TaskSelectorService>(task_storage)
+    };
 
-    task_service.SetTaskDeadline(id2, sys_days{year_month_day(2026y, May, 16d)} + hours(12));
-    task_service.SetTaskDeadline(id3, sys_days{year_month_day(2026y, May, 14d)} + hours(12));
-
-    int tag1 = tag_service.CreateTag("Blue", Blue);
-    int tag2 = tag_service.CreateTag("Yellow", Yellow);
-    int tag3 = tag_service.CreateTag("Red", Red);
-
-    tag_service.AddTagToTask(id1, tag1);
-    tag_service.AddTagToTask(id1, tag2);
-    tag_service.AddTagToTask(id5, tag3);
-    tag_service.AddTagToTask(id5, tag1);
-
-    std::shared_ptr<Task> root = task_storage->Get(id1);
-    PrintTaskTree(root);
+    std::unique_ptr<IView> view = std::make_unique<MainView>(context);
+    while(view)
+    {
+        view = std::move(view->Run());
+    }
 }

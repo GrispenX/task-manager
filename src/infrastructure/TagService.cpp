@@ -43,3 +43,8 @@ void TagService::RemoveTagFromTask(int task_id, int tag_id)
 {
     m_TaskStorage->Get(task_id)->RemoveTag(m_TagStorage->Get(tag_id));
 }
+
+std::vector<std::shared_ptr<Tag>> TagService::GetAllTags()
+{
+    return m_TagStorage->GetAll();
+}

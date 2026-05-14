@@ -16,6 +16,7 @@ public:
     void SetTagColor(int tag_id, Color color) override;
     void AddTagToTask(int task_id, int tag_id) override;
     void RemoveTagFromTask(int task_id, int tag_id) override;
+    std::vector<std::shared_ptr<Tag>> GetAllTags() override;
 
 private:
     std::shared_ptr<ITagStorage> m_TagStorage;

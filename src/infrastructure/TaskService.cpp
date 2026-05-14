@@ -7,11 +7,10 @@ TaskService::TaskService(std::shared_ptr<ITaskStorage> task_storage) :
 
 }
 
-int TaskService::CreateNewTask(std::string name, std::string description, std::optional<int> parent_id)
+int TaskService::CreateNewTask(std::string name, std::optional<int> parent_id)
 {
     TaskOptions options {
-        .name = name,
-        .description = description
+        .name = name
     };
     std::shared_ptr<Task> task = std::make_shared<Task>(options);
 
@@ -70,4 +69,16 @@ void TaskService::SetTaskDeadline(int task_id, std::chrono::system_clock::time_p
 void TaskService::RemoveTaskDeadline(int task_id)
 {
     m_TaskStorage->Get(task_id)->SetDeadline(std::nullopt);
+}
+
+std::optional<std::shared_ptr<Task>> TaskService::GetTask(int task_id)
+{
+    try
+    {
+        return m_TaskStorage->Get(task_id);
+    }
+    catch(const std::exception& e)
+    {
+        return std::nullopt;
+    }
 }

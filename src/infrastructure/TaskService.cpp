@@ -1,0 +1,53 @@
+#include "infrastructure/TaskService.h"
+#include <queue>
+
+TaskService::TaskService(std::shared_ptr<ITaskStorage> task_storage) :
+    m_TaskStorage(task_storage)
+{
+
+}
+
+int TaskService::CreateNewTask(std::string name, std::string description, std::optional<int> parent_id)
+{
+    TaskOptions options {
+        .name = name,
+        .description = description
+    };
+    std::shared_ptr<Task> task = std::make_shared<Task>(options);
+
+    if(parent_id.has_value())
+    {
+        m_TaskStorage->Get(parent_id.value())->AddSubtask(task);
+    }
+
+    return m_TaskStorage->Add(task);
+}
+
+void TaskService::SwitchTaskStatus(int task_id)
+{
+    std::shared_ptr<Task> task = m_TaskStorage->Get(task_id);
+    task->SetDone(!task->IsDone());
+}
+
+void TaskService::DeleteTask(int task_id)
+{
+    std::shared_ptr<Task> task = m_TaskStorage->Get(task_id);
+    std::queue<std::shared_ptr<Task>> to_delete;
+    to_delete.push(task);
+
+    while(to_delete.empty())
+    {
+        for(auto subtask : to_delete.front()->Subtasks())
+        {
+            to_delete.push(subtask);
+        }
+        m_TaskStorage->Remove(to_delete.front()->ID());
+        to_delete.pop();
+    }
+
+    auto parent = task->ParentTask().lock();
+    if(parent)
+    {
+        parent->RemoveSubtask(task);
+    }
+}

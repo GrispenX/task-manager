@@ -1,0 +1,16 @@
+#ifndef INCLUDE_INFRASTRUCTURE_ITASKSERVICE_H_
+#define INCLUDE_INFRASTRUCTURE_ITASKSERVICE_H_
+
+#include "core/Task.h"
+
+class ITaskService
+{
+public:
+    virtual ~ITaskService() = default;
+
+    virtual int CreateNewTask(std::string name, std::string description, std::optional<int> parent_id) = 0;
+    virtual void SwitchTaskStatus(int task_id) = 0;
+    virtual void DeleteTask(int task_id) = 0;
+};
+
+#endif // INCLUDE_INFRASTRUCTURE_ITASKSERVICE_H_

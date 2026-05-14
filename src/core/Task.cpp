@@ -1,21 +1,17 @@
 #include "core/Task.h"
 #include <stdexcept>
+#include <algorithm>
 
-Task::Task(
-    std::string name,
-    std::string description,
-    bool is_done,
-    int id,
-    std::optional<std::chrono::time_point<std::chrono::system_clock>> deadline
-) :
-    m_ID(id),
-    m_Name(name),
-    m_Description(description),
-    m_IsDone(is_done),
-    m_Deadline(deadline)
+Task::Task(TaskOptions options) :
+    m_ID(options.id),
+    m_Name(options.name),
+    m_Description(options.description),
+    m_IsDone(options.is_done),
+    m_Deadline(options.deadline)
 {
 
 }
+
 
 int Task::ID() const
 {
@@ -87,4 +83,9 @@ void Task::AddSubtask(std::shared_ptr<Task> task)
 
     m_Subtasks.push_back(task);
     task->m_ParentTask = shared_from_this();
+}
+
+void Task::RemoveSubtask(std::shared_ptr<Task> task)
+{
+    std::erase(m_Subtasks, task);
 }

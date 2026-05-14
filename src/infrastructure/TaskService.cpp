@@ -51,3 +51,23 @@ void TaskService::DeleteTask(int task_id)
         parent->RemoveSubtask(task);
     }
 }
+
+void TaskService::SetTaskName(int task_id, std::string name)
+{
+    m_TaskStorage->Get(task_id)->SetName(name);
+}
+
+void TaskService::SetTaskDescription(int task_id, std::string description)
+{
+    m_TaskStorage->Get(task_id)->SetDescription(description);
+}
+
+void TaskService::SetTaskDeadline(int task_id, std::chrono::system_clock::time_point deadline)
+{
+    m_TaskStorage->Get(task_id)->SetDeadline(deadline);
+}
+
+void TaskService::RemoveTaskDeadline(int task_id)
+{
+    m_TaskStorage->Get(task_id)->SetDeadline(std::nullopt);
+}

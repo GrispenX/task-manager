@@ -9,7 +9,7 @@ Task::Task(TaskOptions options) :
     m_IsDone(options.is_done),
     m_Deadline(options.deadline)
 {
-
+    if(options.name.empty()) throw std::runtime_error("Name can't be empty");
 }
 
 

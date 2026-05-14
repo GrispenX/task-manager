@@ -5,6 +5,8 @@
 #include <iostream>
 #include <format>
 
+using namespace std::chrono;
+
 class BGColor : public Color {};
 
 std::ostream& operator<<(std::ostream& os, const BGColor& color)
@@ -19,7 +21,7 @@ std::ostream& operator<<(std::ostream& os, const Color& color)
     return os;
 }
 
-void PrintTaskTree(std::shared_ptr<Task> task, std::string prefix = "")
+void PrintTask(std::shared_ptr<Task> task, std::string prefix = "")
 {
     std::cout << prefix << "ID: " << task->ID() << "\n";
     std::cout << prefix << "Label: " << task->Name() << "\n";
@@ -27,6 +29,12 @@ void PrintTaskTree(std::shared_ptr<Task> task, std::string prefix = "")
     {
         std::cout << prefix << "  " << BGColor(tag->GetColor()) << "  \033[0m " << tag->GetID() << ". " << tag->GetLabel() << "\n";
     }
+    std::cout << "\n";
+}
+
+void PrintTaskTree(std::shared_ptr<Task> task, std::string prefix = "")
+{
+    PrintTask(task, prefix);
     for(auto subtask : task->Subtasks())
     {
         PrintTaskTree(subtask, prefix + "    ");
@@ -44,6 +52,9 @@ int main()
     int id3 = task_service.CreateNewTask("task 3", "", id1);
     int id4 = task_service.CreateNewTask("task 4", "", id2);
     int id5 = task_service.CreateNewTask("task 5", "", id4);
+
+    task_service.SetTaskDeadline(id2, sys_days{year_month_day(2026y, May, 16d)} + hours(12));
+    task_service.SetTaskDeadline(id3, sys_days{year_month_day(2026y, May, 14d)} + hours(12));
 
     int tag1 = tag_service.CreateTag("Blue", Blue);
     int tag2 = tag_service.CreateTag("Yellow", Yellow);

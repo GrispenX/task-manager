@@ -30,8 +30,9 @@ std::unique_ptr<IView> MainView::Run()
         if((ss >> option) && (option >= 1 && option <= 3)) break;
         TerminalStyle::SetBackgroundColor(Red);
         TerminalStyle::SetBold();
-        std::cout << "Invalid option\n";
+        std::cout << "Invalid option";
         TerminalStyle::ResetStyle();
+        std::cout << "\n";
     }
     
     std::cout << "\n";

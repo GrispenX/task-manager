@@ -18,9 +18,9 @@ std::unique_ptr<IView> TaskDetailedView::Run()
     {
         TerminalStyle::SetBackgroundColor(Red);
         TerminalStyle::SetBold();
-        std::cout << "Task not found\n";
+        std::cout << "Task not found";
         TerminalStyle::ResetStyle();
-        std::cout << "\n";
+        std::cout << "\n\n";
         return std::make_unique<TasksView>(m_Context);
     }
 
@@ -51,10 +51,11 @@ std::unique_ptr<IView> TaskDetailedView::Run()
     {
         for(auto tag : task->Tags())
         {
+            std::cout << "[";
             TerminalStyle::SetBackgroundColor(tag->GetColor());
             std::cout << "  ";
             TerminalStyle::ResetStyle();
-            std::cout << std::format(" {}. {} ", tag->GetID(), tag->GetLabel());
+            std::cout << std::format(" {}. {}] ", tag->GetID(), tag->GetLabel());
         }
         std::cout << "\n";
     }
@@ -106,8 +107,9 @@ std::unique_ptr<IView> TaskDetailedView::Run()
         if((ss >> option) && (option >= 1 && option <= 7)) break;
         TerminalStyle::SetBackgroundColor(Red);
         TerminalStyle::SetBold();
-        std::cout << "Invalid option\n";
+        std::cout << "Invalid option";
         TerminalStyle::ResetStyle();
+        std::cout << "\n";
     }
 
     switch (option)
@@ -144,8 +146,9 @@ std::unique_ptr<IView> TaskDetailedView::Run()
         {
             TerminalStyle::SetBackgroundColor(Red);
             TerminalStyle::SetBold();
-            std::cout << "Invalid format\n";
+            std::cout << "Invalid format";
             TerminalStyle::ResetStyle();
+            std::cout << "\n";
             break;
         }
         std::time_t time = std::mktime(&tm);
@@ -165,8 +168,9 @@ std::unique_ptr<IView> TaskDetailedView::Run()
         {
             TerminalStyle::SetBackgroundColor(Red);
             TerminalStyle::SetBold();
-            std::cout << "Tag ID should be an integer\n";
+            std::cout << "Tag ID should be an integer";
             TerminalStyle::ResetStyle();
+            std::cout << "\n";
             break;
         }
 
@@ -178,8 +182,9 @@ std::unique_ptr<IView> TaskDetailedView::Run()
         {
             TerminalStyle::SetBackgroundColor(Red);
             TerminalStyle::SetBold();
-            std::cout << e.what() << "\n";
+            std::cout << e.what();
             TerminalStyle::ResetStyle();
+            std::cout << "\n";
         }
         break;
     }
@@ -194,8 +199,9 @@ std::unique_ptr<IView> TaskDetailedView::Run()
         {
             TerminalStyle::SetBackgroundColor(Red);
             TerminalStyle::SetBold();
-            std::cout << "Tag ID should be an integer\n";
+            std::cout << "Tag ID should be an integer";
             TerminalStyle::ResetStyle();
+            std::cout << "\n";
             break;
         }
 
@@ -207,8 +213,9 @@ std::unique_ptr<IView> TaskDetailedView::Run()
         {
             TerminalStyle::SetBackgroundColor(Red);
             TerminalStyle::SetBold();
-            std::cout << e.what() << "\n";
+            std::cout << e.what();
             TerminalStyle::ResetStyle();
+            std::cout << "\n";
         }
         break;
     }

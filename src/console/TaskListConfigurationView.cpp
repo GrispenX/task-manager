@@ -44,8 +44,9 @@ std::unique_ptr<IView> TaskListConfigurationView::Run()
         if((ss >> option) && (option >= 1 && option <= 7)) break;
         TerminalStyle::SetBackgroundColor(Red);
         TerminalStyle::SetBold();
-        std::cout << "Invalid option\n";
+        std::cout << "Invalid option";
         TerminalStyle::ResetStyle();
+        std::cout << "\n";
     }
 
     switch (option)
@@ -60,8 +61,9 @@ std::unique_ptr<IView> TaskListConfigurationView::Run()
         {
             TerminalStyle::SetBackgroundColor(Red);
             TerminalStyle::SetBold();
-            std::cout << "Tag ID should be an integer\n";
+            std::cout << "Tag ID should be an integer";
             TerminalStyle::ResetStyle();
+            std::cout << "\n";
             break;
         }
 
@@ -74,8 +76,9 @@ std::unique_ptr<IView> TaskListConfigurationView::Run()
         {
             TerminalStyle::SetBackgroundColor(Red);
             TerminalStyle::SetBold();
-            std::cout << "Tag not found\n";
+            std::cout << "Tag not found";
             TerminalStyle::ResetStyle();
+            std::cout << "\n";
         }
         break;
     }
@@ -98,8 +101,9 @@ std::unique_ptr<IView> TaskListConfigurationView::Run()
         {
             TerminalStyle::SetBackgroundColor(Red);
             TerminalStyle::SetBold();
-            std::cout << "Duration should be an integer\n";
+            std::cout << "Duration should be an integer";
             TerminalStyle::ResetStyle();
+            std::cout << "\n";
         }
 
         m_Context.task_selector_service->SetFilterStrategy(std::make_shared<TaskFilterTimeLeft>(std::chrono::days(days)));

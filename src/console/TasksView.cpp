@@ -34,8 +34,9 @@ std::unique_ptr<IView> TasksView::Run()
         if((ss >> option) && (option >= 1 && option <= 6)) break;
         TerminalStyle::SetBackgroundColor(Red);
         TerminalStyle::SetBold();
-        std::cout << "Invalid option\n";
+        std::cout << "Invalid option";
         TerminalStyle::ResetStyle();
+        std::cout << "\n";
     }
 
     switch (option)
@@ -71,8 +72,9 @@ std::unique_ptr<IView> TasksView::Run()
             {
                 TerminalStyle::SetBackgroundColor(Red);
                 TerminalStyle::SetBold();
-                std::cout << "ID should be an integer\n";
+                std::cout << "ID should be an integer";
                 TerminalStyle::ResetStyle();
+                std::cout << "\n";
                 break;
             }
             parent_id = id;
@@ -88,8 +90,9 @@ std::unique_ptr<IView> TasksView::Run()
         {
             TerminalStyle::SetBackgroundColor(Red);
             TerminalStyle::SetBold();
-            std::cout << e.what() << "\n";
+            std::cout << e.what();
             TerminalStyle::ResetStyle();
+            std::cout << "\n";
         }
         break;
     }
@@ -104,8 +107,9 @@ std::unique_ptr<IView> TasksView::Run()
         {
             TerminalStyle::SetBackgroundColor(Red);
             TerminalStyle::SetBold();
-            std::cout << "ID should be an integer\n";
+            std::cout << "ID should be an integer";
             TerminalStyle::ResetStyle();
+            std::cout << "\n";
             break;
         }
 
@@ -117,8 +121,9 @@ std::unique_ptr<IView> TasksView::Run()
         {
             TerminalStyle::SetBackgroundColor(Red);
             TerminalStyle::SetBold();
-            std::cout << e.what() << "\n";
+            std::cout << e.what();
             TerminalStyle::ResetStyle();
+            std::cout << "\n";
         }
         break;
     }
@@ -133,8 +138,9 @@ std::unique_ptr<IView> TasksView::Run()
         {
             TerminalStyle::SetBackgroundColor(Red);
             TerminalStyle::SetBold();
-            std::cout << "ID should be an integer\n";
+            std::cout << "ID should be an integer";
             TerminalStyle::ResetStyle();
+            std::cout << "\n";
             break;
         }
 

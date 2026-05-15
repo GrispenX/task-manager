@@ -39,10 +39,11 @@ std::unique_ptr<IView> TaskListView::Run()
         
         for(auto tag : task->Tags())
         {
+            std::cout << "[";
             TerminalStyle::SetBackgroundColor(tag->GetColor());
             std::cout << "  ";
             TerminalStyle::ResetStyle();
-            std::cout << std::format(" {}. {} ", tag->GetID(), tag->GetLabel());
+            std::cout << std::format(" {}. {}] ", tag->GetID(), tag->GetLabel());
         }
         std::cout << "\n\n";
     }

@@ -17,7 +17,7 @@ std::unique_ptr<IView> TaskTreeView::Run()
     for(auto orphan : m_Context.task_service->GetOrphanTasks())
     {
         PrintTaskRecursively(orphan);
-        std::cout << "\n\n";
+        std::cout << "\n";
     }
 
     return std::make_unique<TasksView>(m_Context);
@@ -50,10 +50,11 @@ void TaskTreeView::PrintTaskRecursively(std::shared_ptr<Task> task, std::string 
     std::cout << prefix;
     for(auto tag : task->Tags())
     {
+        std::cout << "[";
         TerminalStyle::SetBackgroundColor(tag->GetColor());
         std::cout << "  ";
         TerminalStyle::ResetStyle();
-        std::cout << std::format(" {}. {} ", tag->GetID(), tag->GetLabel());
+        std::cout << std::format(" {}. {}] ", tag->GetID(), tag->GetLabel());
     }
     std::cout << "\n\n";
 

@@ -10,6 +10,8 @@ public:
 
     std::vector<std::shared_ptr<Task>> Filter(std::shared_ptr<ITaskStorage> task_storage) override;
 
+    std::string Description() override;
+
 private:
     std::shared_ptr<Tag> m_Tag;
 };

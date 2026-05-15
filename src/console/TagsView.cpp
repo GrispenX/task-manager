@@ -21,13 +21,18 @@ std::unique_ptr<IView> TagsView::Run()
     std::cout << "\n";
 
     int option = 0;
-    do
+    while(true)
     {
+        std::string option_str;
         std::cout << "Option: ";
-        std::cin >> option;
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    } while (option < 1 || option > 4);
+        std::getline(std::cin, option_str);
+        std::istringstream ss(option_str);
+        if((ss >> option) && (option >= 1 && option <= 4)) break;
+        TerminalStyle::SetBackgroundColor(Red);
+        TerminalStyle::SetBold();
+        std::cout << "Invalid option\n";
+        TerminalStyle::ResetStyle();
+    }
 
     switch (option)
     {
@@ -41,17 +46,28 @@ std::unique_ptr<IView> TagsView::Run()
             TerminalStyle::ResetStyle();
             std::cout << " " << tag->GetLabel() << "\n";
         }
-        std::cout << "\n";
-        return std::make_unique<TagsView>(m_Context);
         break;
 
     case 2: {
         std::string label;
         std::cout << "Label: ";
         std::getline(std::cin, label);
-        int r, g, b;
+
+        std::string color_str;
         std::cout << "Color (R, G, B): ";
-        std::cin >> r >> g >> b;
+        std::getline(std::cin, color_str);
+
+        std::istringstream ss(color_str);
+        int r, g, b;
+        if(!(ss >> r >> g >> b))
+        {
+            TerminalStyle::SetBackgroundColor(Red);
+            TerminalStyle::SetBold();
+            std::cout << "Invalid color\n";
+            TerminalStyle::ResetStyle();
+            break;
+        }
+
         try
         {
             m_Context.tag_service->CreateTag(label, Color(r, g, b));
@@ -63,16 +79,24 @@ std::unique_ptr<IView> TagsView::Run()
             std::cout << e.what() << "\n";
             TerminalStyle::ResetStyle();
         }
-        
-        std::cout << "\n";
-        return std::make_unique<TagsView>(m_Context);
         break;
     }
 
     case 3: {
-        int id;
+        std::string id_str;
         std::cout << "Tag ID: ";
-        std::cin >> id;
+        std::getline(std::cin, id_str);
+        std::istringstream ss(id_str);
+        int id;
+        if(!(ss >> id))
+        {
+            TerminalStyle::SetBackgroundColor(Red);
+            TerminalStyle::SetBold();
+            std::cout << "ID should be an integer\n";
+            TerminalStyle::ResetStyle();
+            break;
+        }
+
         try
         {
             m_Context.tag_service->DeleteTag(id);
@@ -84,8 +108,6 @@ std::unique_ptr<IView> TagsView::Run()
             std::cout << e.what() << "\n";
             TerminalStyle::ResetStyle();
         }
-        std::cout << "\n";
-        return std::make_unique<TagsView>(m_Context);
         break;
     }
     
@@ -94,4 +116,7 @@ std::unique_ptr<IView> TagsView::Run()
         return std::make_unique<MainView>(m_Context);
         break;
     }
+
+    std::cout << "\n";
+    return std::make_unique<TagsView>(m_Context);
 }

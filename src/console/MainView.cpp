@@ -21,13 +21,18 @@ std::unique_ptr<IView> MainView::Run()
     std::cout << "\n";
 
     int option = 0;
-    do
+    while(true)
     {
+        std::string option_str;
         std::cout << "Option: ";
-        std::cin >> option;
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    } while (option < 1 || option > 3);
+        std::getline(std::cin, option_str);
+        std::istringstream ss(option_str);
+        if((ss >> option) && (option >= 1 && option <= 3)) break;
+        TerminalStyle::SetBackgroundColor(Red);
+        TerminalStyle::SetBold();
+        std::cout << "Invalid option\n";
+        TerminalStyle::ResetStyle();
+    }
     
     std::cout << "\n";
     switch (option)

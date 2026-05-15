@@ -97,13 +97,18 @@ std::unique_ptr<IView> TaskDetailedView::Run()
     std::cout << "\n";
 
     int option = 0;
-    do
+    while(true)
     {
+        std::string option_str;
         std::cout << "Option: ";
-        std::cin >> option;
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    } while (option < 1 || option > 7);
+        std::getline(std::cin, option_str);
+        std::istringstream ss(option_str);
+        if((ss >> option) && (option >= 1 && option <= 7)) break;
+        TerminalStyle::SetBackgroundColor(Red);
+        TerminalStyle::SetBold();
+        std::cout << "Invalid option\n";
+        TerminalStyle::ResetStyle();
+    }
 
     switch (option)
     {
@@ -151,9 +156,20 @@ std::unique_ptr<IView> TaskDetailedView::Run()
     }
 
     case 5: {
-        int tag_id;
+        std::string tag_id_str;
         std::cout << "Tag ID: ";
-        std::cin >> tag_id;
+        std::getline(std::cin, tag_id_str);
+        std::istringstream ss(tag_id_str);
+        int tag_id;
+        if(!(ss >> tag_id))
+        {
+            TerminalStyle::SetBackgroundColor(Red);
+            TerminalStyle::SetBold();
+            std::cout << "Tag ID should be an integer\n";
+            TerminalStyle::ResetStyle();
+            break;
+        }
+
         try
         {
             m_Context.tag_service->AddTagToTask(m_ID, tag_id);
@@ -169,9 +185,20 @@ std::unique_ptr<IView> TaskDetailedView::Run()
     }
 
     case 6: {
-        int tag_id;
+        std::string tag_id_str;
         std::cout << "Tag ID: ";
-        std::cin >> tag_id;
+        std::getline(std::cin, tag_id_str);
+        std::istringstream ss(tag_id_str);
+        int tag_id;
+        if(!(ss >> tag_id))
+        {
+            TerminalStyle::SetBackgroundColor(Red);
+            TerminalStyle::SetBold();
+            std::cout << "Tag ID should be an integer\n";
+            TerminalStyle::ResetStyle();
+            break;
+        }
+
         try
         {
             m_Context.tag_service->RemoveTagFromTask(m_ID, tag_id);

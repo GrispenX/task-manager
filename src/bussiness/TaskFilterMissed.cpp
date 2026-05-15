@@ -11,3 +11,8 @@ std::vector<std::shared_ptr<Task>> TaskFilterMissed::Filter(std::shared_ptr<ITas
         }
     );
 }
+
+std::string TaskFilterMissed::Description()
+{
+    return "Missed tasks";
+}

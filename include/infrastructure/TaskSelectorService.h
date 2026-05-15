@@ -9,6 +9,7 @@ public:
     TaskSelectorService(std::shared_ptr<ITaskStorage> task_storage);
 
     void SetFilterStrategy(std::shared_ptr<ITaskFilterStrategy> filter) override;
+    std::shared_ptr<ITaskFilterStrategy> GetFilterStrategy() override;
 
     std::vector<std::shared_ptr<Task>> GetTasks() override;
 

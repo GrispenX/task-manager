@@ -9,6 +9,7 @@ public:
     virtual ~ITaskSelectorService() = default;
 
     virtual void SetFilterStrategy(std::shared_ptr<ITaskFilterStrategy> filter) = 0;
+    virtual std::shared_ptr<ITaskFilterStrategy> GetFilterStrategy() = 0;
 
     virtual std::vector<std::shared_ptr<Task>> GetTasks() = 0;
 };

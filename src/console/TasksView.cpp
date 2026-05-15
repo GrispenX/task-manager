@@ -1,7 +1,7 @@
 #include "console/TasksView.h"
 #include "console/MainView.h"
 #include "console/TaskDetailedView.h"
-
+#include "console/TaskListConfigurationView.h"
 #include "console/TerminalStyle.h"
 #include <iostream>
 
@@ -23,25 +23,24 @@ std::unique_ptr<IView> TasksView::Run()
     std::cout << "  5. Back\n";
 
     int option = 0;
-    do
+    while(true)
     {
         std::string option_str;
         std::cout << "Option: ";
-        std::cin >> option_str;
-        try
-        {
-            option = std::stoi(option_str);
-        }
-        catch(const std::exception& e)
-        {
-            option = 0;
-        }
-        
-    } while (option < 1 || option > 5);
+        std::getline(std::cin, option_str);
+        std::istringstream ss(option_str);
+        if((ss >> option) && (option >= 1 && option <= 5)) break;
+        TerminalStyle::SetBackgroundColor(Red);
+        TerminalStyle::SetBold();
+        std::cout << "Invalid option\n";
+        TerminalStyle::ResetStyle();
+    }
 
     switch (option)
     {
     case 1:
+        std::cout << "\n";
+        return std::make_unique<TaskListConfigurationView>(m_Context);
         break;
 
     case 2: {
@@ -49,26 +48,26 @@ std::unique_ptr<IView> TasksView::Run()
         std::cout << "Name: ";
         std::getline(std::cin, name);
         std::string parent;
-        std::cout << "Parent ID (- for none): ";
-        std::cin >> parent;
-        std::optional<int> parent_id;
 
-        if(parent == "-")
+        std::cout << "Parent ID ('none' for none): ";
+        std::getline(std::cin, parent);
+
+        std::optional<int> parent_id;
+        if(parent == "none")
         {
             parent_id = std::nullopt;
         }
         else
         {
-            try
-            {
-                parent_id = std::stoi(parent);
-            }
-            catch(const std::exception& e)
+            std::istringstream ss(parent);
+            int parent_id;
+            if(!(ss >> parent_id))
             {
                 TerminalStyle::SetBackgroundColor(Red);
                 TerminalStyle::SetBold();
                 std::cout << "ID should be an integer\n";
                 TerminalStyle::ResetStyle();
+                break;
             }
         }
 
@@ -89,9 +88,20 @@ std::unique_ptr<IView> TasksView::Run()
     }
 
     case 3: {
-        int id;
+        std::string id_str;
         std::cout << "Task ID: ";
-        std::cin >> id;
+        std::getline(std::cin, id_str);
+        std::istringstream ss(id_str);
+        int id;
+        if(!(ss >> id))
+        {
+            TerminalStyle::SetBackgroundColor(Red);
+            TerminalStyle::SetBold();
+            std::cout << "ID should be an integer\n";
+            TerminalStyle::ResetStyle();
+            break;
+        }
+
         try
         {
             m_Context.task_service->DeleteTask(id);
@@ -106,13 +116,25 @@ std::unique_ptr<IView> TasksView::Run()
         break;
     }
 
-    case 4:
-        int id;
+    case 4: {
+        std::string id_str;
         std::cout << "Task ID: ";
-        std::cin >> id;
+        std::getline(std::cin, id_str);
+        std::istringstream ss(id_str);
+        int id;
+        if(!(ss >> id))
+        {
+            TerminalStyle::SetBackgroundColor(Red);
+            TerminalStyle::SetBold();
+            std::cout << "ID should be an integer\n";
+            TerminalStyle::ResetStyle();
+            break;
+        }
+
         std::cout << "\n";
         return std::make_unique<TaskDetailedView>(m_Context, id);
         break;
+    }
     
     default:
         std::cout << "\n";

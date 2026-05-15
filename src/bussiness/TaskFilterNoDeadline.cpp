@@ -8,3 +8,8 @@ std::vector<std::shared_ptr<Task>> TaskFilterNoDeadline::Filter(std::shared_ptr<
         }
     );
 }
+
+std::string TaskFilterNoDeadline::Description()
+{
+    return "Without deadline";
+}

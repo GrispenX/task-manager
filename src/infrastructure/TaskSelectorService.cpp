@@ -12,8 +12,13 @@ void TaskSelectorService::SetFilterStrategy(std::shared_ptr<ITaskFilterStrategy>
     m_TaskFilter = filter;
 }
 
+std::shared_ptr<ITaskFilterStrategy> TaskSelectorService::GetFilterStrategy()
+{
+    return m_TaskFilter;
+}
+
 std::vector<std::shared_ptr<Task>> TaskSelectorService::GetTasks()
 {
-    if(!m_TaskFilter) throw std::runtime_error("Task filter shouldn't be nullptr");
+    if(!m_TaskFilter) return m_TaskStorage->GetAll();
     return m_TaskFilter->Filter(m_TaskStorage);
 }

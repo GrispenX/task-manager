@@ -12,6 +12,8 @@ public:
     virtual ~ITaskFilterStrategy() = default;
 
     virtual std::vector<std::shared_ptr<Task>> Filter(std::shared_ptr<ITaskStorage> task_storage) = 0;
+
+    virtual std::string Description() = 0;
 };
 
 #endif // INCLUDE_BUSSINESS_ITASKFILTERSTRATEGY_H_

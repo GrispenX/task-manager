@@ -26,6 +26,7 @@ std::unique_ptr<IView> TaskTreeView::Run()
 void TaskTreeView::PrintTaskRecursively(std::shared_ptr<Task> task, std::string prefix)
 {
     std::optional<std::chrono::system_clock::time_point> deadline = task->Deadline();
+    std::cout << prefix;
 
     if(task->IsDone())
     {
@@ -38,7 +39,7 @@ void TaskTreeView::PrintTaskRecursively(std::shared_ptr<Task> task, std::string 
         TerminalStyle::SetForegroundColor(Color(200, 0, 0));
     }
     
-    std::cout << prefix << std::format("{}. {} ", task->ID(), task->Name());
+    std::cout << std::format("{}. {} ", task->ID(), task->Name());
     if(deadline.has_value())
     {
         std::cout << std::format("(due to {:%Y-%m-%d %H:%M:%S})", deadline.value());
@@ -46,12 +47,13 @@ void TaskTreeView::PrintTaskRecursively(std::shared_ptr<Task> task, std::string 
     TerminalStyle::ResetStyle();
     std::cout << "\n";
     
+    std::cout << prefix;
     for(auto tag : task->Tags())
     {
         TerminalStyle::SetBackgroundColor(tag->GetColor());
         std::cout << "  ";
         TerminalStyle::ResetStyle();
-        std::cout << prefix << std::format(" {}. {} ", tag->GetID(), tag->GetLabel());
+        std::cout << std::format(" {}. {} ", tag->GetID(), tag->GetLabel());
     }
     std::cout << "\n\n";
 

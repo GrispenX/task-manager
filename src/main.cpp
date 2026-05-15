@@ -1,5 +1,5 @@
-#include "infrastructure/InMemTaskStorage.h"
-#include "infrastructure/InMemTagStorage.h"
+#include "infrastructure/JSONTagStorage.h"
+#include "infrastructure/JSONTaskStorage.h"
 #include "infrastructure/TaskService.h"
 #include "infrastructure/TagService.h"
 #include "infrastructure/TaskSelectorService.h"
@@ -9,8 +9,8 @@
 
 int main()
 {
-    std::shared_ptr<ITaskStorage> task_storage = std::make_shared<InMemTaskStorage>();
-    std::shared_ptr<ITagStorage> tag_storage = std::make_shared<InMemTagStorage>();
+    std::shared_ptr<ITagStorage> tag_storage = std::make_shared<JSONTagStorage>("tags.json");
+    std::shared_ptr<ITaskStorage> task_storage = std::make_shared<JSONTaskStorage>(JSONTaskSerializer(tag_storage), "tasks.json");
     Context context {
         .task_service = std::make_shared<TaskService>(task_storage),
         .tag_service = std::make_shared<TagService>(tag_storage, task_storage),

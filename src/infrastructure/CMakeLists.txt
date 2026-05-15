@@ -1,6 +1,10 @@
 add_library(infrastructure
     InMemTaskStorage.cpp
     InMemTagStorage.cpp
+    JSONTagSerializer.cpp
+    JSONTaskSerializer.cpp
+    JSONTagStorage.cpp
+    JSONTaskStorage.cpp
     TaskService.cpp
     TagService.cpp
     TaskSelectorService.cpp

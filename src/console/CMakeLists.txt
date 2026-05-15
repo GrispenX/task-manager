@@ -6,6 +6,7 @@ add_library(console
     TaskDetailedView.cpp
     TaskListConfigurationView.cpp
     TaskListView.cpp
+    TaskTreeView.cpp
 )
 
 target_include_directories(console PUBLIC ${CMAKE_SOURCE_DIR}/include)

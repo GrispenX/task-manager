@@ -17,6 +17,7 @@ public:
     void SetTaskDeadline(int task_id, std::chrono::system_clock::time_point deadline) override;
     void RemoveTaskDeadline(int task_id) override;
     std::optional<std::shared_ptr<Task>> GetTask(int task_id) override;
+    std::vector<std::shared_ptr<Task>> GetOrphanTasks() override;
 
 private:
     std::shared_ptr<ITaskStorage> m_TaskStorage;

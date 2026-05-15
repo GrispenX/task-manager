@@ -16,6 +16,7 @@ public:
     virtual void SetTaskDeadline(int task_id, std::chrono::system_clock::time_point deadline) = 0;
     virtual void RemoveTaskDeadline(int task_id) = 0;
     virtual std::optional<std::shared_ptr<Task>> GetTask(int task_id) = 0;
+    virtual std::vector<std::shared_ptr<Task>> GetOrphanTasks() = 0;
 };
 
 #endif // INCLUDE_INFRASTRUCTURE_ITASKSERVICE_H_

@@ -2,6 +2,7 @@
 #include "console/MainView.h"
 #include "console/TaskDetailedView.h"
 #include "console/TaskListConfigurationView.h"
+#include "console/TaskTreeView.h"
 #include "console/TerminalStyle.h"
 #include <iostream>
 
@@ -17,10 +18,11 @@ std::unique_ptr<IView> TasksView::Run()
     std::cout << "===== Tasks =====\n";
     std::cout << "Choose the option:\n";
     std::cout << "  1. List\n";
-    std::cout << "  2. Create\n";
-    std::cout << "  3. Delete\n";
-    std::cout << "  4. Details\n";
-    std::cout << "  5. Back\n";
+    std::cout << "  2. Tree\n";
+    std::cout << "  3. Create\n";
+    std::cout << "  4. Delete\n";
+    std::cout << "  5. Details\n";
+    std::cout << "  6. Back\n";
 
     int option = 0;
     while(true)
@@ -29,7 +31,7 @@ std::unique_ptr<IView> TasksView::Run()
         std::cout << "Option: ";
         std::getline(std::cin, option_str);
         std::istringstream ss(option_str);
-        if((ss >> option) && (option >= 1 && option <= 5)) break;
+        if((ss >> option) && (option >= 1 && option <= 6)) break;
         TerminalStyle::SetBackgroundColor(Red);
         TerminalStyle::SetBold();
         std::cout << "Invalid option\n";
@@ -43,12 +45,16 @@ std::unique_ptr<IView> TasksView::Run()
         return std::make_unique<TaskListConfigurationView>(m_Context);
         break;
 
-    case 2: {
+    case 2:
+        std::cout << "\n";
+        return std::make_unique<TaskTreeView>(m_Context);
+
+    case 3: {
         std::string name;
         std::cout << "Name: ";
         std::getline(std::cin, name);
-        std::string parent;
 
+        std::string parent;
         std::cout << "Parent ID ('none' for none): ";
         std::getline(std::cin, parent);
 
@@ -60,8 +66,8 @@ std::unique_ptr<IView> TasksView::Run()
         else
         {
             std::istringstream ss(parent);
-            int parent_id;
-            if(!(ss >> parent_id))
+            int id;
+            if(!(ss >> id))
             {
                 TerminalStyle::SetBackgroundColor(Red);
                 TerminalStyle::SetBold();
@@ -69,6 +75,7 @@ std::unique_ptr<IView> TasksView::Run()
                 TerminalStyle::ResetStyle();
                 break;
             }
+            parent_id = id;
         }
 
         try
@@ -87,7 +94,7 @@ std::unique_ptr<IView> TasksView::Run()
         break;
     }
 
-    case 3: {
+    case 4: {
         std::string id_str;
         std::cout << "Task ID: ";
         std::getline(std::cin, id_str);
@@ -116,7 +123,7 @@ std::unique_ptr<IView> TasksView::Run()
         break;
     }
 
-    case 4: {
+    case 5: {
         std::string id_str;
         std::cout << "Task ID: ";
         std::getline(std::cin, id_str);

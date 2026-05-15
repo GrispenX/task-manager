@@ -34,7 +34,7 @@ void TaskService::DeleteTask(int task_id)
     std::queue<std::shared_ptr<Task>> to_delete;
     to_delete.push(task);
 
-    while(to_delete.empty())
+    while(!to_delete.empty())
     {
         for(auto subtask : to_delete.front()->Subtasks())
         {
@@ -81,4 +81,9 @@ std::optional<std::shared_ptr<Task>> TaskService::GetTask(int task_id)
     {
         return std::nullopt;
     }
+}
+
+std::vector<std::shared_ptr<Task>> TaskService::GetOrphanTasks()
+{
+    return m_TaskStorage->Get([](std::shared_ptr<Task> task) { return task->ParentTask().lock() == nullptr; });
 }
